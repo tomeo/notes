@@ -1,5 +1,12 @@
 # Postgresql
 
+## Create instance
+
+See `docker/alpine-timezone`.
+```
+docker run --name postgres-tz -e TZ=Europe/Stockholm -e POSTGRES_PASSWORD=password -d -p 5432:5432 postgres-tz
+```
+
 ## Connect to instance
 ```
 docker run -it --rm postgres psql postgres://username:password@hostname/db_name
