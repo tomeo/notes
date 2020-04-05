@@ -7,6 +7,8 @@ git commit --amend -m "New commit message."
 ```
 
 ### If the commit has been pushed
+Don't do this if there is any risk at all that someone else has already pulled your commit.
+
 ```
 git commit --amend -m "New commit message."
 git push --force branch-name
