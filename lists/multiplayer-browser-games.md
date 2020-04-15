@@ -6,3 +6,6 @@
 
 ## MOBA
 * https://tacticscore.io
+
+## RTS
+* https://feudalwars.net
