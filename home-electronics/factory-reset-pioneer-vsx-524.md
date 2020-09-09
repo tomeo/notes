@@ -5,3 +5,6 @@
 3. Press `STANDBY/ON` and hold until display shows `RESET?`
 4. Press `AUTO SURROUND/STREAM CONNECT`
 5. Press `ALC/STANDARD SURR`
+
+## Source
+* https://www.youtube.com/watch?v=s10cHx9h1u8
