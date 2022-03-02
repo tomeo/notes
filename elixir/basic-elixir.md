@@ -72,8 +72,8 @@ Pattern matching and recursive calls:
 ```elixir
 defmodule Play do
 
-    def sum([]) -> 0
-    def sum([head | tail]) -> head + sum(tail)
+    def sum([]), do: 0
+    def sum([head | tail]), do: head + sum(tail)
 
 end
 
