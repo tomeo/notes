@@ -4,30 +4,6 @@
 
 Use interactive shell with `iex`.
 
-## Pattern matching
-
-### Destructoring
-
-```elixir
-# Defining a and setting b, c, d to the values in a respectively
-a = [1,2,3]
-[b,c,d] = a
-
-# Values are now assigned to b, c, d
-b = 1
-c = 2
-d = 3
-```
-
-### Head and tail
-
-```elixir
-a = [1,2,3]
-[head|tail] = a
-head = 1
-tail = [2,3]
-```
-
 ## Data types
 
 ### Integers
@@ -191,6 +167,118 @@ end
 if age > 18, do: "Can Vote", else: "Can't vote"
 ```
 
+## Tuples
+
+```elixir
+my_stats = {175, 6.25, :Derek}
+is_tuple(my_stats) # true
+
+my_stats2 = Tuple.append(my_stats, 42)
+elem(my_stats2, 3) # 42
+tuple_size(my_stats2) # 4
+
+my_stats3 = Tuple.delete_at(my_stats2, 0) # {6.25, :Derek, 42}
+
+my_stats4 = Tuple.insert_at(my_stats3, 0, 1974) # {1974, 6.25, :Derek, 42}
+
+many_zeroes = Tuple.duplicate(0, 5) # {0, 0, 0, 0, 0}
+
+{weight, height} = {175, 6.25} # {175, 6.25}, weight = 175, height = 6.25
+```
+
+## Lists
+
+```elixir
+list1 = [1,2,3]
+list2 = [4,5,6]
+
+list3 = list1 ++ list2 # [1,2,3,4,5,6]
+list4 = list3 -- list1 # [4,5,6]
+
+[head | tail] = [1,2,3] # head = 1, tail = [2,3]
+Enum.each tail, fn item ->
+    IO.puts item
+end
+
+def display_list([]), do: nil
+def display_list([head|tail]) do
+    IO.puts head
+    display_list(tail)
+end
+
+List.delete(list1, 2) # [1,3]
+List.delete_at(list1, 2) # [1,2]
+List.insert_at(list1, 3, 4) # [1,2,3,4]
+
+List.first(list1) # 1
+List.last(list1) # 3
+
+my_stats = [name: "Derek", height: 6.25]
+```
+
+## Enumerables
+
+```elixir
+Enum.all?([1,2,3], fn(n) -> rem(n,2) === 0 end) # false
+Enum.any?([1,2,3], fn(n) -> rem(n,2) === 0 end) # true
+
+Enum.each([1,2,3], fn(n) -> IO.puts n end)
+Enum.map([1,2,3], fn(n) -> n*2 end) # [2,4,6]
+Enum.reduce([1,2,3], fn(n, sum) -> n + sum end) # 6
+
+Enum.uniq([1,2,2]) # [1,2]
+```
+
+## List comprehensions
+
+```elixir
+for n <- [1,2,3], do: n * 2 # [2,4,6]
+for n <- [1,2,3,4], rem(n,2) == 0, do: n # [2,4]
+```
+
+## Maps
+
+```elixir
+capitals = %{
+    "Alabama" => "Montgomery,
+    "Alaska" => "Juneau",
+    "Arizona" => "Phoenix",
+}
+
+capitals["Alaska"] # "Juneau"
+
+capitals2 = %{
+    alabama: "Montgomery",
+    alaska: "Juneau"
+}
+capitals2.alabama # "Montgomery"
+
+capitals3 = Dict.put_new(capitals, "Arkansas", "Little Rock")
+```
+
+## Pattern matching
+
+```elixir
+[a,b,c] = [1,2,3] # a = 1, b = 2, c = 3
+
+
+d = [1,2,3]
+[e,f,g] = d # e = 1, c = f, g = 3
+
+[_, [_, a]] = [20, [30, 40]] # a = 40
+```
+
+## Output
+
+```elixir
+
+IO.puts "Hi" # Hi (with newline)
+IO.write "Hi" # Hi (without newline)
+
+IO.inspect [97,98] # 'ab'
+IO.inspect [97,98], charlists: :as_lists # [97,98]
+```
+
 ## Pipes
 
 ```elixir
@@ -204,12 +292,47 @@ if age > 18, do: "Can Vote", else: "Can't vote"
 ## Functions
 
 ```elixir
-func = fn a,b -> a + b end
+get_sum = fn (x,y) -> x + y end
+get_sum.(1,2) # 3
 
 # Equivalent shorthand syntax
-func = &(&1 + &2)
+get_less = &(&1-&2)
+get_less.(2,1) # 1
 
-func.(1,2) # 3
+add_sum = fn
+    {x,y} -> x+y
+    {x,y,z} -> x+y+z
+end
+add_sum.({1,2}) # 3
+add_sum.({1,2,3}) # 6
+
+# Default paramater values
+def do_it(x \\ 1, y \\ 1) do
+    x + y
+end
+do_it.() # 2
+
+# Recursion
+def factorial(1), do: 1
+def factorial(n) do
+    result = n * factorial(num - 1)
+    result
+end
+factorial.(4) # 24
+
+def sum([]), do: 1
+def sum([h|t]), do: h + sum(t)
+sum.([1,2,3]) # 6
+
+def loop(0, _), do: nil
+def loop(max, min) do
+    if max < min do
+        loop(0, min)
+    else
+        IO.puts "Num: #{max}"
+        loop(max - 1, min)
+    end
+end
 ```
 
 ## Modules
@@ -251,4 +374,38 @@ defmodule Play do
 end
 
 Play.sum [1,5] # 6
+```
+
+## Exception handling
+
+```elixir
+err = try do
+    5 / 0
+
+rescue
+    ArithmeticError -> "Can't divide by zero"
+end
+```
+
+## Concurrency
+
+```elixir
+def do_stuff do
+    spawn(fn() -> loop(50,1) end)
+    spawn(fn() -> loop(100, 50) end)
+end
+
+send(self(), {:french, "Bob"})
+
+receive do
+    {:german, name} -> IO.puts "Guten tag #{name}"
+    {:french, name} -> IO.puts "Bonjour #{name}"
+    {:english, name} -> IO.puts "Hello #{name}"
+
+after
+    500 -> IO.puts "Time up"
+    
+end
+
+
 ```
