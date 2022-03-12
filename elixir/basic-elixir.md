@@ -2,7 +2,25 @@
 
 ## Tooling
 
+### Interactive shell
+
 Use interactive shell with `iex`.
+
+### Mix
+
+A build tool that ships with Elixir that provides tasks for creating, compiling, testing your application, managing its dependencies and much more.
+
+```elixir
+mix new kv --module KV
+```
+
+### ExUnit
+
+A test-unit based framework that ships with Elixir.
+
+### OTP
+
+OTP (Open Telecom Platform) is a set of libraries that ships with Erlang. Erlang developers use OTP to build robust, fault-tolerant applications. In this chapter we will explore how many aspects from OTP integrate with Elixir, including supervision trees, event managers and more.
 
 ## Data types
 
