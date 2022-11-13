@@ -15,29 +15,7 @@
 
 ## The LiveView Lifecycle
 
-LiveView manages state in structs that are called sockets. The module `Phoenix.LiveView.Socket` creates these structs.
 
-### Initial request
-
-1. Receive HTTP-request
-2. The `mount/3` callback is invoked which assigns initial state to the socket.
-3. The `render/1` callback is then invoked with the state that `mount/3` assigned to the socket.
-4. A full HTML-page is sent back to the client as a regular HTTP-response.
-
-### Subsequent requests
-
-1. When the initial page loaded it also loaded `assets/js/app.js` which opens a persistant websocket connection to the server.
-2. A stateful LiveView process is spawned. `mount/3` will then be invoked again and initalises the state of the process assigning values to the socket.
-3. `render/1` will then be invoked once more to render a new view for the state. However this time it will only send the parts that need updating.
-
-Read more at [Phoenix.LiveView behaviour
-](https://pragmaticstudio.com/tutorials/the-life-cycle-of-a-phoenix-liveview).
-
-### Lifecycle
-
-1. Receive event
-2. Change state
-3. Render state
 
 ## CRC: Constructors, Reducers, and Converters
 
